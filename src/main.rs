@@ -3,55 +3,58 @@ use std::io;
 fn main() {
 
     loop {
-        println!("\nMENU \nplease enter a 1 - to convert from fahrenheit to celcius \n\n Enter 2 - to convert from celsius to fahrenheit \n\nType \"quit\" to quit the entire program");
         let mut input = String::new();
+        let mut parsed_value: f64 = 0.0;
+
+        println!("-----------------------------------------------------------------------------");
+        println!("Welcome to your personal temperature converter! \nTo convert from celsius to fahrenheit enter 'CTF'\nTo convert from fahrenheit to celsius enter 'FTC'\nElse to exit enter 'exit'");
+        println!("-----------------------------------------------------------------------------");
 
         io::stdin().read_line(&mut input).expect("Failed to readline");
 
-        let input = input.trim();
-
-        
-        if input.trim() == "quit" { break }
-
-        let mut parsed_str: f64 = 0.0;
-
-        'far_to_cel_loop: loop {
-
-            println!("\nplease enter a temperature to convert from fahrenheit to celcius OR type \"exit\" to leave to the menu");
-
-            if input.trim() == "exit" { break 'far_to_cel_loop };
-
+        if input.trim() == "exit" {
+            break;
+        } else if input.trim() == "CTF" {
+            let mut input = String::new();
+            println!("Enter a celcius  value to convert to fahrenheit: ");
+            io::stdin().read_line(&mut input).expect("Failed to readline");
+            //println!("{input}");
+            let input = input.trim();
             match input.parse::<f64>() {
-                Ok(num) => parsed_str = num,
-                Err(er) => println!("Got an error: {}", er),
+                Ok(num) => parsed_value = num,
+                Err(er) => println!("Error thrown when parsing user input to float: {}", er)
             }
-
-            let temp = temperature_converter_fahrenheit_to_celsius(parsed_str);
-            println!("Conversion: {input} fahrenheit to celcius is {temp:.2}!");
-
-        }
-
-        'cel_to_far_loop: loop{
-
-            println!("\nplease enter a temperature to convert from celcius to fahrenheit OR type \"exit\" to leave to the menu");
-
-            if input.trim() == "exit" { break 'cel_to_far_loop };
             
+            let parsed_value = temperature_converter_celsius_to_fahrenheit(parsed_value);
+            println!("The celcius value {} converted to fahrenheit is: {}", input.trim(), parsed_value);
+
+        } else if input.trim() == "FTC" {
+            let mut input = String::new();
+            println!("Enter a fahrenheit value to convert to celcius: ");
+            io::stdin().read_line(&mut input).expect("Failed to readline");
+
+            let input = input.trim();
             match input.parse::<f64>() {
-                Ok(num) => parsed_str = num,
-                Err(er) => println!("Got an error: {}", er),
+                Ok(num) => parsed_value = num,
+                Err(er) => println!("Error thrown when parsing user input to float:{}", er)
             }
 
+            let parsed_value = temperature_converter_fahrenheit_to_celcius(parsed_value);
+            println!("The fahrenheit value {} converted to celcius is: {}", input, parsed_value);
+            
         }
+
+
 
     }
 
+
 }
 
-fn temperature_converter_fahrenheit_to_celsius(fahrenheit_temp: f64) -> f64 {
-    return (5.0 / 9.0) * (fahrenheit_temp -32.0);
+fn temperature_converter_fahrenheit_to_celcius(fahrenheit_temp: f64) -> f64 {
+    (5.0 / 9.0) * (fahrenheit_temp - 32.0)
 }
 
 fn temperature_converter_celsius_to_fahrenheit(celsius_temp: f64) -> f64 {
-    return celsius_temp * (9 / 5) + 32;
+    return celsius_temp * (9.0 / 5.0) + 32.0;
 }
