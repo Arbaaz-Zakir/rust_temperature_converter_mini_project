@@ -26,7 +26,7 @@ fn main() {
             }
             
             let parsed_value = temperature_converter_celsius_to_fahrenheit(parsed_value);
-            println!("The celcius value {} converted to fahrenheit is: {}", input.trim(), parsed_value);
+            println!("The celcius value {input} converted to fahrenheit is: {parsed_value:.2}");
 
         } else if input.trim() == "FTC" {
             let mut input = String::new();
@@ -40,7 +40,7 @@ fn main() {
             }
 
             let parsed_value = temperature_converter_fahrenheit_to_celcius(parsed_value);
-            println!("The fahrenheit value {} converted to celcius is: {}", input, parsed_value);
+            println!("The fahrenheit value {input} converted to celcius is: {parsed_value:.2}");
             
         }
 
